@@ -10,6 +10,13 @@ type LocalMem struct {
 	data map[string][]api.Transaction
 }
 
+func NewLocalMem() *LocalMem {
+	return &LocalMem{
+		lock: sync.RWMutex{},
+		data: make(map[string][]api.Transaction),
+	}
+}
+
 func (r *LocalMem) ById(address string) ([]api.Transaction, error) {
 	r.lock.RLock()
 	defer r.lock.Unlock()

@@ -2,13 +2,24 @@ package main
 
 import (
 	"career_focus_hw/app/constants"
+	"career_focus_hw/app/domain/repository"
 	"career_focus_hw/app/domain/service"
+	"career_focus_hw/app/infra/db"
+	"career_focus_hw/app/infra/rpc"
 	"log"
 )
 
 func main() {
 	address := "0x0000000000000000000000000000000000000000"
-	server := service.NewParser(constants.URL)
+
+	// new
+	db := db.NewLocalMem()
+	repo := repository.NewEthRepo(db)
+	rpcClient := rpc.NewEthClient(constants.URL)
+
+	// init
+	server := service.NewParser(constants.URL, repo, rpcClient)
+
 	block := server.GetCurrentBlock()
 	log.Printf("current block:%d", block)
 	subscribeResult := server.Subscribe("address")
