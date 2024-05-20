@@ -3,6 +3,7 @@ package rpc
 import (
 	"career_focus_hw/app/api"
 	"encoding/json"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -44,4 +45,32 @@ func (client *EthClient) GetRecentBlockNumber() (*api.RpcResponse, error) {
 		return nil, err
 	}
 	return ans, nil
+}
+
+func (client *EthClient) GetEthBlockNumber() (*api.RpcResponse, error) {
+	resp, err := client.doRequest("eth_blockNumber", []interface{}{})
+
+	if err != nil {
+		log.Fatalf("%v", err)
+		return nil, err
+	}
+
+	var ans = new(api.RpcResponse)
+	if err := json.NewDecoder(resp.Body).Decode(ans); err != nil {
+		return nil, err
+	}
+	return ans, nil
+}
+
+func (client *EthClient) GetBlcokByNum(block int) (*api.RpcResponse, error) {
+	resp, err := client.doRequest("eth_getBlockByNumber", []interface{}{block, true})
+	if err != nil {
+		return nil, err
+	}
+	var ans = new(api.RpcResponse)
+	if err := json.NewDecoder(resp.Body).Decode(ans); err != nil {
+		return nil, err
+	}
+	return ans, nil
+
 }

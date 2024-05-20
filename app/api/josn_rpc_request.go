@@ -8,7 +8,8 @@ type RpcRequest struct {
 }
 
 type RpcResponse struct {
-	JsonRpc string `json:"jsonrpc"`
-	Result  string `json:"result"`
-	Id      int    `json:"id"`
+	JsonRpc      string        `json:"jsonrpc"`
+	Result       string        `json:"result"`
+	Transactions []Transaction `json:"transactions"`
+	Id           int           `json:"id"`
 }
