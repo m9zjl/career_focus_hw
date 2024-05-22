@@ -1,7 +1,7 @@
 package api
 
 type Parser interface {
-	GetCurrentBlock() int
+	GetCurrentBlock() int64
 	Subscribe(address string) bool
 	GetTransactions(address string) []Transaction
 }

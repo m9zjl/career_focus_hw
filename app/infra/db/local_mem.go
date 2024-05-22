@@ -19,7 +19,7 @@ func NewLocalMem() *LocalMem {
 
 func (r *LocalMem) ById(address string) ([]api.Transaction, error) {
 	r.lock.RLock()
-	defer r.lock.Unlock()
+	defer r.lock.RUnlock()
 	return r.data[address], nil
 }
 
