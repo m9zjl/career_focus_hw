@@ -3,7 +3,6 @@ package service
 import (
 	"career_focus_hw/app/api"
 	"career_focus_hw/app/domain/repository"
-	"fmt"
 	"log"
 	"sync"
 )
@@ -41,7 +40,7 @@ func (e *EthParser) Subscribe(address string) bool {
 func (e *EthParser) GetTransactions(address string) []api.Transaction {
 	transactions, err := e.repo.ById(address)
 	if err != nil {
-		log.Fatalln(fmt.Sprintf("Error while getting transactions from repo: %v", err))
+		log.Fatalf("Error while getting transactions from repo: %v", err)
 	}
 	return transactions
 }

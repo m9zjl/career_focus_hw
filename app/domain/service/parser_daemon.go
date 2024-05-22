@@ -67,28 +67,28 @@ var forTest = true
 func (pd *ParserDaemon) parseBlockByBlockNum(blockNum int64) {
 	resp, err := pd.client.GetBlockByNum(intToHex(blockNum))
 	if err != nil {
-		log.Fatalln(fmt.Sprintf("failed to get block %d", blockNum))
+		log.Fatalf("failed to get block %d", blockNum)
 	}
 	if resp == nil || resp.Result.Transactions == nil {
-		log.Println(fmt.Sprintf("no transactions in block %d", blockNum))
+		log.Fatalf("no transactions in block %d", blockNum)
 		return
 	}
 
 	for _, tx := range resp.Result.Transactions {
 		if forTest {
-			log.Println(fmt.Sprintf("test address:%s", tx.From))
+			log.Printf("test address:%s", tx.From)
 			forTest = false
 		}
 		if pd.subscribers[tx.To] {
 			_, err = pd.ethRepo.Save(tx.To, tx)
 			if err != nil {
-				log.Fatalln(fmt.Sprintf("failed to save block %d", blockNum))
+				log.Fatalf("failed to save block %d", blockNum)
 			}
 		}
 		if pd.subscribers[tx.From] {
 			_, err = pd.ethRepo.Save(tx.From, tx)
 			if err != nil {
-				log.Fatalln(fmt.Sprintf("failed to save block %d", blockNum))
+				log.Fatalf("failed to save block %d", blockNum)
 			}
 		}
 	}

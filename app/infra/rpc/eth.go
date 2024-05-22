@@ -21,7 +21,7 @@ func NewEthClient(url string) EthClient {
 
 func (client *EthClient) doRequest(method string, params []interface{}) (*http.Response, error) {
 	defer func() { client.seq++ }()
-	req := api.RpcRequest{"2.0", method, params, client.seq}
+	req := api.RpcRequest{JsonRpc: "2.0", Method: method, Params: params, Id: client.seq}
 	marshal, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
